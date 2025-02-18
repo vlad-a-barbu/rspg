@@ -1,3 +1,19 @@
+struct Factorial(u64);
+
+impl Iterator for Factorial {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.0 == 0 {
+            None
+        } else {
+            let res = self.0;
+            self.0 -= 1;
+            Some(res)
+        }
+    }
+}
+
 fn factorial(num: u64) -> u64 {
     // TODO: Complete this function to return the factorial of `num` which is
     // defined as `1 * 2 * 3 * … * num`.
@@ -10,6 +26,14 @@ fn factorial(num: u64) -> u64 {
     // - additional variables
     // For an extra challenge, don't use:
     // - recursion
+
+    /*if num == 0 {
+        1
+    } else {
+        num * factorial(num - 1)
+    }*/
+
+    Factorial(num).reduce(|acc, next| acc * next).unwrap_or(1)
 }
 
 fn main() {
